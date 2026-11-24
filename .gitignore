@@ -1,0 +1,10 @@
+/.vs/
+/Wymagania/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal
+*.db-journal

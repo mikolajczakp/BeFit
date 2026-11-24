@@ -1,6 +1,5 @@
 @model IEnumerable<ExerciseType>
 @using BeFit.Security
-@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostEnvironment
 
 @{
     ViewData["Title"] = "Typy ćwiczeń";
@@ -46,15 +45,4 @@
 else
 {
     <p>Nie dodano jeszcze żadnych typów ćwiczeń.</p>
-
-    @if (HostEnvironment.IsDevelopment() && !isAdministrator)
-    {
-        <h2 class="h5">Pierwsze uruchomienie</h2>
-        <ol>
-            <li>Zarejestruj konto, np. <code>admin@befit.test</code>, i kliknij link potwierdzający.</li>
-            <li>Otwórz terminal w folderze z plikiem <code>BeFit.slnx</code> i uruchom polecenie z adresem tego konta.</li>
-            <li>Zaloguj się ponownie. W katalogu pojawi się przycisk <strong>Dodaj typ ćwiczenia</strong>.</li>
-        </ol>
-        <pre><code>dotnet run --project BeFit --no-build -- @Administrator.GrantCommand admin@@befit.test</code></pre>
-    }
 }

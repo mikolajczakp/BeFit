@@ -1,0 +1,25 @@
+@using System.Globalization
+@model WorkoutExercise
+
+@{
+    ViewData["Title"] = "Usuń ćwiczenie";
+    var culture = CultureInfo.GetCultureInfo("pl-PL");
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Czy na pewno chcesz usunąć z treningu ćwiczenie <strong>@Model.ExerciseType.Name</strong>?</p>
+
+<dl>
+    <dt>@Html.DisplayNameFor(exercise => exercise.WeightKg)</dt>
+    <dd>@(Model.WeightKg?.ToString("G29", culture))</dd>
+    <dt>@Html.DisplayNameFor(exercise => exercise.Sets)</dt>
+    <dd>@Model.Sets</dd>
+    <dt>@Html.DisplayNameFor(exercise => exercise.RepetitionsPerSet)</dt>
+    <dd>@Model.RepetitionsPerSet</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Usuń ćwiczenie</button>
+    <a asp-action="Index" asp-route-sessionId="@Model.WorkoutSessionId" class="btn btn-link">Anuluj</a>
+</form>

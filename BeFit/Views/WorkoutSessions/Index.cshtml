@@ -1,0 +1,40 @@
+@model IEnumerable<WorkoutSession>
+
+@{
+    ViewData["Title"] = "Moje treningi";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p><a asp-action="Create" class="btn btn-primary">Dodaj trening</a></p>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(session => session.StartedAt)</th>
+                <th scope="col">@Html.DisplayNameFor(session => session.EndedAt)</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var session in Model)
+            {
+                <tr>
+                    <td>@(session.StartedAt?.ToString("dd.MM.yyyy HH:mm"))</td>
+                    <td>@(session.EndedAt?.ToString("dd.MM.yyyy HH:mm"))</td>
+                    <td>
+                        <a asp-controller="WorkoutExercises" asp-action="Index" asp-route-sessionId="@session.Id">Ćwiczenia</a>
+                        <a asp-action="Edit" asp-route-id="@session.Id" class="ms-2">Edytuj</a>
+                        <a asp-action="Delete" asp-route-id="@session.Id" class="ms-2 text-danger">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nie masz jeszcze zapisanych treningów.</p>
+}

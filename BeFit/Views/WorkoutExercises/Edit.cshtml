@@ -1,0 +1,17 @@
+@model WorkoutExercise
+
+@{
+    ViewData["Title"] = "Edytuj ćwiczenie";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <partial name="_ExerciseFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <a asp-action="Index" asp-route-sessionId="@Model.WorkoutSessionId" class="btn btn-link">Anuluj</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

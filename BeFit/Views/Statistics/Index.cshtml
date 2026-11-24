@@ -1,0 +1,43 @@
+@using System.Globalization
+@model IEnumerable<ExerciseStatistics>
+
+@{
+    ViewData["Title"] = "Moje statystyki";
+    var culture = CultureInfo.GetCultureInfo("pl-PL");
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Podsumowanie treningów rozpoczętych w ostatnich czterech tygodniach.</p>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(item => item.ExerciseName)</th>
+                    <th scope="col">@Html.DisplayNameFor(item => item.ExecutionCount)</th>
+                    <th scope="col">@Html.DisplayNameFor(item => item.TotalRepetitions)</th>
+                    <th scope="col">@Html.DisplayNameFor(item => item.AverageWeightKg)</th>
+                    <th scope="col">@Html.DisplayNameFor(item => item.MaximumWeightKg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.ExerciseName</th>
+                        <td>@item.ExecutionCount</td>
+                        <td>@item.TotalRepetitions</td>
+                        <td>@item.AverageWeightKg.ToString("0.##", culture)</td>
+                        <td>@item.MaximumWeightKg.ToString("G29", culture)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>Nie masz zapisanych ćwiczeń z ostatnich czterech tygodni.</p>
+}

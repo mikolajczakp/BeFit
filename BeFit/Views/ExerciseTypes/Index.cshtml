@@ -1,0 +1,48 @@
+@model IEnumerable<ExerciseType>
+@using BeFit.Security
+
+@{
+    ViewData["Title"] = "Typy ćwiczeń";
+    var isAdministrator = User.IsInRole(Administrator.Role);
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (isAdministrator)
+{
+    <p><a asp-action="Create" class="btn btn-primary">Dodaj typ ćwiczenia</a></p>
+}
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(exerciseType => exerciseType.Name)</th>
+                @if (isAdministrator)
+                {
+                    <th scope="col">Akcje</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exerciseType in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(_ => exerciseType.Name)</td>
+                    @if (isAdministrator)
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@exerciseType.Id">Edytuj</a>
+                            <a asp-action="Delete" asp-route-id="@exerciseType.Id" class="ms-2 text-danger">Usuń</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nie dodano jeszcze żadnych typów ćwiczeń.</p>
+}

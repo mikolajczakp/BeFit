@@ -1,0 +1,27 @@
+@model WorkoutExercise
+
+@{
+    ViewData["Title"] = "Dodaj ćwiczenie";
+    var exerciseTypes = (SelectList)ViewData["ExerciseTypes"]!;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!exerciseTypes.Any())
+{
+    <p>Katalog jest pusty. Administrator musi najpierw dodać typ ćwiczenia.</p>
+    <p><a asp-controller="ExerciseTypes" asp-action="Index">Typy ćwiczeń</a></p>
+    <p><a asp-action="Index" asp-route-sessionId="@Model.WorkoutSessionId">Wróć do ćwiczeń</a></p>
+}
+else
+{
+    <form asp-action="Create" asp-route-sessionId="@Model.WorkoutSessionId" method="post">
+        <partial name="_ExerciseFields" model="Model" />
+        <button type="submit" class="btn btn-primary">Zapisz</button>
+        <a asp-action="Index" asp-route-sessionId="@Model.WorkoutSessionId" class="btn btn-link">Anuluj</a>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

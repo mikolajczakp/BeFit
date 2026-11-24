@@ -1,0 +1,21 @@
+@model WorkoutSession
+
+@{
+    ViewData["Title"] = "Usuń trening";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Czy na pewno chcesz usunąć ten trening wraz z zapisanymi w nim ćwiczeniami?</p>
+
+<dl>
+    <dt>@Html.DisplayNameFor(session => session.StartedAt)</dt>
+    <dd>@(Model.StartedAt?.ToString("dd.MM.yyyy HH:mm"))</dd>
+    <dt>@Html.DisplayNameFor(session => session.EndedAt)</dt>
+    <dd>@(Model.EndedAt?.ToString("dd.MM.yyyy HH:mm"))</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Usuń trening</button>
+    <a asp-action="Index" class="btn btn-link">Anuluj</a>
+</form>

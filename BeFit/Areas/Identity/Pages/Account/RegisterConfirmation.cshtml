@@ -1,0 +1,17 @@
+@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Potwierdź rejestrację";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.ConfirmationUrl is string link)
+{
+    <p>Potwierdź konto, aby móc się zalogować.</p>
+    <a class="btn btn-primary" href="@link">Potwierdź konto</a>
+}
+else
+{
+    <p>Sprawdź pocztę i otwórz link potwierdzający konto.</p>
+}

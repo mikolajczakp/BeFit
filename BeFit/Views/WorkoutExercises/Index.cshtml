@@ -1,0 +1,49 @@
+@using System.Globalization
+@model WorkoutExerciseList
+
+@{
+    ViewData["Title"] = "Ćwiczenia w treningu";
+    var culture = CultureInfo.GetCultureInfo("pl-PL");
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>@Html.DisplayNameFor(model => model.Session.StartedAt): @(Model.Session.StartedAt?.ToString("dd.MM.yyyy HH:mm"))</p>
+
+<p><a asp-action="Create" asp-route-sessionId="@Model.Session.Id" class="btn btn-primary">Dodaj ćwiczenie</a></p>
+
+@if (Model.Exercises.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.Exercises[0].ExerciseTypeId)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Exercises[0].WeightKg)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Exercises[0].Sets)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Exercises[0].RepetitionsPerSet)</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exercise in Model.Exercises)
+            {
+                <tr>
+                    <td>@exercise.ExerciseType.Name</td>
+                    <td>@(exercise.WeightKg?.ToString("G29", culture))</td>
+                    <td>@exercise.Sets</td>
+                    <td>@exercise.RepetitionsPerSet</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@exercise.Id">Edytuj</a>
+                        <a asp-action="Delete" asp-route-id="@exercise.Id" class="ms-2 text-danger">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>W tym treningu nie ma jeszcze ćwiczeń.</p>
+}
+
+<p><a asp-controller="WorkoutSessions" asp-action="Index">Wróć do moich treningów</a></p>

@@ -1,0 +1,18 @@
+@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Potwierdzenie konta";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.Confirmed)
+{
+    <p>Konto zostało potwierdzone. Możesz się zalogować.</p>
+    <a class="btn btn-primary" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Zaloguj się</a>
+}
+else
+{
+    <p>Nie udało się potwierdzić konta. Sprawdź link lub poproś o nowy.</p>
+    <a asp-page="./ResendEmailConfirmation">Wyślij ponownie link potwierdzający</a>
+}

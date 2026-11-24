@@ -1,0 +1,9 @@
+@using BeFit.Security
+@model string
+
+<section class="alert alert-info" aria-labelledby="administrator-setup-heading">
+    <h2 id="administrator-setup-heading" class="h5">Skonfiguruj administratora</h2>
+    <p>To pierwsze konto w tej bazie. Aby zarządzać katalogiem typów ćwiczeń, otwórz terminal w folderze z plikiem <code>BeFit.slnx</code> i uruchom poniższe polecenie.</p>
+    <pre><code>dotnet run --project BeFit --no-build -- @Administrator.GrantCommand @Model</code></pre>
+    <p class="mb-0">Następnie zaloguj się ponownie i wejdź w <strong>Typy ćwiczeń → Dodaj typ ćwiczenia</strong>.</p>
+</section>

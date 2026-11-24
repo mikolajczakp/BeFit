@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeFit.Security;
 
@@ -6,6 +7,18 @@ public static class Administrator
 {
     public const string Role = "Administrator";
     public const string GrantCommand = "--grant-admin";
+
+    public static async Task<string?> GetFirstAccountSetupEmailAsync(
+        UserManager<IdentityUser> users, IdentityUser user, CancellationToken cancellationToken)
+    {
+        if (await users.IsInRoleAsync(user, Role) ||
+            await users.Users.AnyAsync(account => account.Id != user.Id, cancellationToken))
+        {
+            return null;
+        }
+
+        return user.Email;
+    }
 
     public static async Task<int> GrantAsync(IServiceProvider services, string email)
     {

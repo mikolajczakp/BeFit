@@ -9,6 +9,10 @@
 @if (Model.Confirmed)
 {
     <p>Konto zostało potwierdzone. Możesz się zalogować.</p>
+    @if (Model.AdministratorSetupEmail is string email)
+    {
+        <partial name="/Views/Shared/_AdministratorSetup.cshtml" model="email" />
+    }
     <a class="btn btn-primary" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Zaloguj się</a>
 }
 else

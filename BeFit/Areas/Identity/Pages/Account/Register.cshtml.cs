@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace BeFit.Areas.Identity.Pages.Account;
 
@@ -60,10 +58,7 @@ public class RegisterModel(
             return Page();
         }
 
-        var token = await users.GenerateEmailConfirmationTokenAsync(user);
-        var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-        var confirmUrl = Url.Page("./ConfirmEmail", null, new { userId = user.Id, code, returnUrl = ReturnUrl }, Request.Scheme)
-            ?? throw new InvalidOperationException("Nie można utworzyć linku potwierdzającego konto.");
+        var confirmUrl = await AccountConfirmation.CreateUrlAsync(users, user, Url, ReturnUrl, Request.Scheme);
 
         await emailSender.SendEmailAsync(Input.Email, "Potwierdź konto BeFit",
             $"<a href=\"{HtmlEncoder.Default.Encode(confirmUrl)}\">Potwierdź konto BeFit</a>");

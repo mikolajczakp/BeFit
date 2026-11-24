@@ -2,6 +2,11 @@
     ViewData["Title"] = "Start";
 }
 
+@if (ViewData["AdministratorSetupEmail"] is string email)
+{
+    <partial name="_AdministratorSetup" model="email" />
+}
+
 <div class="text-center">
     <h1 class="display-4">BeFit</h1>
     <p>Zapisuj treningi, dodawaj wykonane ćwiczenia i sprawdzaj statystyki z ostatnich czterech tygodni.</p>

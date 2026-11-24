@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace BeFit.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class LoginModel(SignInManager<IdentityUser> signIn) : PageModel
+public class LoginModel(
+    SignInManager<IdentityUser> signIn,
+    UserManager<IdentityUser> users,
+    IWebHostEnvironment environment) : PageModel
 {
     [BindProperty]
     public LoginInput Input { get; set; } = new();
@@ -50,6 +53,22 @@ public class LoginModel(SignInManager<IdentityUser> signIn) : PageModel
             if (result.IsLockedOut)
             {
                 return RedirectToPage("./Lockout");
+            }
+
+            if (result.IsNotAllowed && environment.IsDevelopment())
+            {
+                var user = await users.FindByNameAsync(Input.Email);
+                if (user is not null && !await users.IsEmailConfirmedAsync(user) && !await users.IsLockedOutAsync(user))
+                {
+                    if (await users.CheckPasswordAsync(user, Input.Password))
+                    {
+                        TempData[nameof(RegisterConfirmationModel.ConfirmationUrl)] =
+                            await AccountConfirmation.CreateUrlAsync(users, user, Url, ReturnUrl, Request.Scheme);
+                        return RedirectToPage("./RegisterConfirmation");
+                    }
+
+                    await users.AccessFailedAsync(user);
+                }
             }
 
             ModelState.AddModelError(string.Empty, "Nie udało się zalogować. Sprawdź dane i upewnij się, że konto zostało potwierdzone.");
